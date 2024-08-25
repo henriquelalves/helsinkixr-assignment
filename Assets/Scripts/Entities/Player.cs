@@ -7,8 +7,10 @@ public class Player : MonoBehaviour
     public event Action PlayerKilled;
     public event Action FirstJumped;
     public event Action StarCollected;
+    public event Action ArrivedFinishLine;
 
     public int CollectedStars => _collectedStars;
+    public bool Alive => _alive;
     
     [SerializeField] private GameObject _playerDeadParticles;
     [SerializeField] private float _gravity;
@@ -42,10 +44,6 @@ public class Player : MonoBehaviour
                     _firstJump = true;
                 }   
             }
-            else
-            {
-                SceneManager.LoadSceneAsync("Default");
-            }
         }
     }
 
@@ -57,6 +55,7 @@ public class Player : MonoBehaviour
         }
         if (other.CompareTag("DeathCollider"))
         {
+            PlayerKilled?.Invoke();
             Kill();
         }
         else if (other.CompareTag("StarCollider"))
@@ -68,13 +67,19 @@ public class Player : MonoBehaviour
         else if (other.CompareTag("PowerUpCollider"))
         {
             Destroy(other.gameObject);
-            _colorEntity.SetColorType(Globals.ColorsData.GetRandomColorType());
+            _colorEntity.SetColorType(Globals.ColorsData.GetRandomColorType(_colorEntity.CurrentColorType));
+        }
+        else if (other.CompareTag("FinishLineCollider"))
+        {
+            ArrivedFinishLine?.Invoke();
+            Kill();
         }
         else
         {
             var otherColorEntity = other.GetComponent<ColorEntity>();
             if (otherColorEntity.CurrentColorType != _colorEntity.CurrentColorType)
             {
+                PlayerKilled?.Invoke();
                 Kill();
             }
         }
@@ -82,7 +87,6 @@ public class Player : MonoBehaviour
 
     private void Kill()
     {
-        PlayerKilled?.Invoke();
         _alive = false;
         var deadParticles = Instantiate(_playerDeadParticles);
         deadParticles.transform.position = transform.position;

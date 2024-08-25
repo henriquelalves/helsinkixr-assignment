@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -29,11 +30,15 @@ public class ColorsData: ScriptableObject
         return data.Color;
     }
 
-    public ColorType GetRandomColorType()
+    public ColorType GetRandomColorType(ColorType? except = null)
     {
         ColorType[] values = (ColorType[])Enum.GetValues(typeof(ColorType));
+        if (except != null)
+        {
+            values = values.Where(t => t != except).ToArray();
+        }
+        
         var rndIdx = Random.Range(0, values.Length - 1);
-        Debug.Log(rndIdx);
         return values[rndIdx];
     }
 }

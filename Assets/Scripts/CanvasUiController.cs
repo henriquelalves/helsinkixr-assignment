@@ -9,12 +9,14 @@ public class CanvasUi : MonoBehaviour
     [SerializeField] private Player _player;
     [SerializeField] private CanvasGroup _initialScreenCanvas;
     [SerializeField] private CanvasGroup _gameOverScreenCanvas;
+    [SerializeField] private CanvasGroup _wonScreenCanvas;
     [SerializeField] private Text _starsLabel;
     void Start()
     {
         _player.FirstJumped += OnPlayerFirstJumped;
         _player.PlayerKilled += OnPlayerKilled;
         _player.StarCollected += OnStarCollected;
+        _player.ArrivedFinishLine += OnArrivedFinishLine;
     }
 
     private void OnDestroy()
@@ -22,11 +24,17 @@ public class CanvasUi : MonoBehaviour
         _player.FirstJumped -= OnPlayerFirstJumped;
         _player.PlayerKilled -= OnPlayerKilled;
         _player.StarCollected -= OnStarCollected;
+        _player.ArrivedFinishLine -= OnArrivedFinishLine;
     }
 
     void OnStarCollected()
     {
         _starsLabel.text = $"Stars: {_player.CollectedStars}";
+    }
+
+    void OnArrivedFinishLine()
+    {
+        Utils.FadeCanvasGroup(this, _wonScreenCanvas, 1f, 0.3f);
     }
     
     void OnPlayerKilled()
