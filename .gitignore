@@ -11,6 +11,7 @@
 
 # Visual Studio 2015 cache directory
 /.vs/
+/.idea/
 
 #Unity specific
 /[Ll]ibrary/
