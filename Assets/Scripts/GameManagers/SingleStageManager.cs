@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 public class SingleStageManager : MonoBehaviour
 {
     [SerializeField] private Player _player;
-    [SerializeField] private CanvasUi _canvasUi;
 
     private void Start()
     {
