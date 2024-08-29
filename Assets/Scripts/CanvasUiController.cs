@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,21 +7,15 @@ public class CanvasUi : MonoBehaviour
     [SerializeField] private CanvasGroup _initialScreenCanvas;
     [SerializeField] private CanvasGroup _gameOverScreenCanvas;
     [SerializeField] private CanvasGroup _wonScreenCanvas;
+    [SerializeField] private CanvasGroup _loadingScreenCanvas;
     [SerializeField] private Text _starsLabel;
+    [SerializeField] private Text _wonLabel;
+    [SerializeField] private Text _startLabel;
+    
     void Start()
     {
-        _player.FirstJumped += OnPlayerFirstJumped;
-        _player.PlayerKilled += OnPlayerKilled;
+        _player.FirstJumped += FadeOutStartingScree;
         _player.StarCollected += OnStarCollected;
-        _player.ArrivedFinishLine += OnArrivedFinishLine;
-    }
-
-    private void OnDestroy()
-    {
-        _player.FirstJumped -= OnPlayerFirstJumped;
-        _player.PlayerKilled -= OnPlayerKilled;
-        _player.StarCollected -= OnStarCollected;
-        _player.ArrivedFinishLine -= OnArrivedFinishLine;
     }
 
     void OnStarCollected()
@@ -32,17 +23,39 @@ public class CanvasUi : MonoBehaviour
         _starsLabel.text = $"Stars: {_player.CollectedStars}";
     }
 
-    void OnArrivedFinishLine()
+    public void SetLoadingScreen()
+    {
+        _loadingScreenCanvas.alpha = 1f;
+        _initialScreenCanvas.alpha = 0f;
+    }
+    
+    public void SetStartScreen()
+    {
+        _loadingScreenCanvas.alpha = 0f;
+        _initialScreenCanvas.alpha = 1f;
+    }
+
+    public void SetStartText(string text)
+    {
+        _startLabel.text = text;
+    }
+    
+    public void SetWonText(string text)
+    {
+        _wonLabel.text = text;
+    }
+    
+    public void FadeInFinishScreen()
     {
         Utils.FadeCanvasGroup(this, _wonScreenCanvas, 1f, 0.3f);
     }
     
-    void OnPlayerKilled()
+    public void FadeInGameOverScreen()
     {
         Utils.FadeCanvasGroup(this, _gameOverScreenCanvas, 1f, 0.3f);
     }
     
-    void OnPlayerFirstJumped()
+    void FadeOutStartingScree()
     {
         Utils.FadeCanvasGroup(this, _initialScreenCanvas, 0f, 0.3f);
     }

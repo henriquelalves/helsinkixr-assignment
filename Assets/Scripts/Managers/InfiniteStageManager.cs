@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class InfiniteStageManager : MonoBehaviour
 {
+    [SerializeField] private CanvasUi _canvasUi;
     [SerializeField] private Player _player;
     [SerializeField] private GameObject _starPrefab;
     [SerializeField] private GameObject _powerUpPrefab;
@@ -24,6 +25,8 @@ public class InfiniteStageManager : MonoBehaviour
             InstantiateNextObstacle(prevObstacle);
             InstantiateNextPowerUp();
         }
+
+        _player.PlayerKilled += OnPlayerKilled;
     }
 
     private void FixedUpdate()
@@ -36,6 +39,11 @@ public class InfiniteStageManager : MonoBehaviour
             Destroy(_obstacles[0]);
             _obstacles.RemoveAt(0);
         }
+    }
+
+    private void OnPlayerKilled()
+    {
+        _canvasUi.FadeInGameOverScreen();
     }
 
     private GameObject InstantiateNextObstacle(GameObject obstaclePrefab)

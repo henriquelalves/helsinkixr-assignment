@@ -45,21 +45,23 @@
     <Analyzer Include="/Applications/Unity/Hub/Editor/2022.3.21f1/Unity.app/Contents/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets/Scripts/Managers/SingleStageManager.cs" />
     <Compile Include="Assets/Scripts/Obstacles/ObstaclePivot.cs" />
     <Compile Include="Assets/Scripts/Entities/GameCamera.cs" />
     <Compile Include="Assets/Scripts/Entities/Player.cs" />
+    <Compile Include="Assets/Scripts/Managers/RaceManager.cs" />
     <Compile Include="Assets/Scripts/Entities/ColorEntity.cs" />
     <Compile Include="Assets/Data/Globals.cs" />
     <Compile Include="Assets/Scripts/Utils.cs" />
     <Compile Include="Assets/Scripts/Data/ColorsData.cs" />
+    <Compile Include="Assets/Scripts/Managers/SoundManager.cs" />
     <Compile Include="Assets/Scripts/Data/ObstaclesData.cs" />
     <Compile Include="Assets/Scripts/Entities/Star.cs" />
-    <Compile Include="Assets/Scripts/GameManagers/InfiniteStageManager.cs" />
     <Compile Include="Assets/Scripts/Obstacles/DeathCollider.cs" />
     <Compile Include="Assets/Scripts/CanvasUiController.cs" />
-    <Compile Include="Assets/Scripts/GameManagers/SingleStageManager.cs" />
     <Compile Include="Assets/Scripts/Obstacles/RotatingObstacle.cs" />
     <Compile Include="Assets/Scripts/Obstacles/MovingObstacle.cs" />
+    <Compile Include="Assets/Scripts/Managers/InfiniteStageManager.cs" />
     <None Include="Assets/Sounds/sounds_copyright.txt" />
     <Reference Include="UnityEngine">
       <HintPath>/Applications/Unity/Hub/Editor/2022.3.21f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>

@@ -6,7 +6,9 @@ public class Player : MonoBehaviour
 {
     public event Action PlayerKilled;
     public event Action FirstJumped;
+    public event Action Jumped;
     public event Action StarCollected;
+    public event Action PowerUpCollected;
     public event Action ArrivedFinishLine;
 
     public int CollectedStars => _collectedStars;
@@ -27,10 +29,19 @@ public class Player : MonoBehaviour
     {
         _alive = true;
         _colorEntity = GetComponent<ColorEntity>();
-        _colorEntity.SetColorType(Globals.ColorsData.GetRandomColorType());
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _colorEntity.SetColorType(Globals.ColorsData.GetRandomColorType());
     }
 
+    public void Respawn()
+    {
+        transform.position = Vector3.zero;
+        _spriteRenderer.enabled = true;
+        _alive = true;
+        _firstJump = false;
+        _colorEntity.SetColorType(Globals.ColorsData.GetRandomColorType());
+    }
+    
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -40,9 +51,10 @@ public class Player : MonoBehaviour
                 _velocity = _jumpForce;
                 if (!_firstJump)
                 {
-                    FirstJumped?.Invoke();
                     _firstJump = true;
-                }   
+                    FirstJumped?.Invoke();
+                }
+                Jumped?.Invoke();
             }
         }
     }
@@ -55,8 +67,8 @@ public class Player : MonoBehaviour
         }
         if (other.CompareTag("DeathCollider"))
         {
-            PlayerKilled?.Invoke();
             Kill();
+            PlayerKilled?.Invoke();
         }
         else if (other.CompareTag("StarCollider"))
         {
@@ -68,19 +80,20 @@ public class Player : MonoBehaviour
         {
             Destroy(other.gameObject);
             _colorEntity.SetColorType(Globals.ColorsData.GetRandomColorType(_colorEntity.CurrentColorType));
+            PowerUpCollected?.Invoke();
         }
         else if (other.CompareTag("FinishLineCollider"))
         {
-            ArrivedFinishLine?.Invoke();
             Kill();
+            ArrivedFinishLine?.Invoke();
         }
         else
         {
             var otherColorEntity = other.GetComponent<ColorEntity>();
             if (otherColorEntity.CurrentColorType != _colorEntity.CurrentColorType)
             {
-                PlayerKilled?.Invoke();
                 Kill();
+                PlayerKilled?.Invoke();
             }
         }
     }

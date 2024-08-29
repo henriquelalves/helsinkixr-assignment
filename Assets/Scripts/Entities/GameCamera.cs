@@ -4,6 +4,12 @@ public class GameCamera : MonoBehaviour
 {
     [SerializeField] private Player _player;
     private float _targetHeight;
+
+    public void Reset()
+    {
+        _targetHeight = 0f;
+        transform.position = new Vector3(0, 0, -10);
+    }
     
     private void FixedUpdate()
     {
